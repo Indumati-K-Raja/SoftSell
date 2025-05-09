@@ -11,111 +11,146 @@ const ContactForm = () => {
 
   const [errors, setErrors] = useState({});
 
-  const handleChange = (e) => {
+  const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
-  };
 
   const validate = () => {
-    let newErrors = {};
-    if (!form.name) newErrors.name = "Name is required";
-    if (!form.email) newErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(form.email))
-      newErrors.email = "Invalid email";
-    if (!form.company) newErrors.company = "Company name is required";
-    if (!form.license) newErrors.license = "Select a license type";
-    if (!form.message) newErrors.message = "Please enter your message";
-    return newErrors;
+    const errs = {};
+    if (!form.name) errs.name = "Name is required";
+    if (!form.email) errs.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = "Invalid email";
+    if (!form.company) errs.company = "Company is required";
+    if (!form.license) errs.license = "Select a license type";
+    if (!form.message) errs.message = "Message is required";
+    return errs;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const validation = validate();
-    if (Object.keys(validation).length > 0) {
-      setErrors(validation);
-    } else {
-      setErrors({});
-      alert("Form submitted successfully! ✅ (This is a frontend mock)");
-      setForm({
-        name: "",
-        email: "",
-        company: "",
-        license: "",
-        message: "",
-      });
-    }
+    const v = validate();
+    if (Object.keys(v).length > 0) return setErrors(v);
+    setErrors({});
+    alert("Submitted!");
+    setForm({
+      name: "",
+      email: "",
+      company: "",
+      license: "",
+      message: "",
+    });
   };
 
   return (
-    <section className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white py-16 px-4">
-      <div className="max-w-3xl mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center text-gray-800 dark:text-white">
-          Get in Touch
+    <section className="py-16 px-4 bg-white dark:bg-gray-900 transition-colors duration-500">
+      <div className="max-w-4xl mx-auto bg-gray-50 dark:bg-gray-800 p-10 rounded-2xl shadow-xl transition-colors duration-500">
+        <h2 className="text-4xl font-bold mb-8 text-center text-gray-900 dark:text-white transition-colors duration-500">
+          Contact Us
         </h2>
-        <form onSubmit={handleSubmit} className="grid gap-6">
-          <div>
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
+          {/* Name */}
+          <div className="col-span-1">
+            <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors duration-500">
+              Name
+            </label>
             <input
-              type="text"
               name="name"
-              placeholder="Name"
-              className="w-full border p-3 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400"
               value={form.name}
               onChange={handleChange}
+              placeholder="Your name"
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-500"
             />
-            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+            )}
           </div>
-          <div>
+
+          {/* Email */}
+          <div className="col-span-1">
+            <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors duration-500">
+              Email
+            </label>
             <input
-              type="email"
               name="email"
-              placeholder="Email"
-              className="w-full border p-3 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400"
+              type="email"
               value={form.email}
               onChange={handleChange}
+              placeholder="you@example.com"
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-500"
             />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
-          <div>
+
+          {/* Company */}
+          <div className="col-span-1">
+            <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors duration-500">
+              Company
+            </label>
             <input
-              type="text"
               name="company"
-              placeholder="Company"
-              className="w-full border p-3 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400"
               value={form.company}
               onChange={handleChange}
+              placeholder="Company name"
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-500"
             />
-            {errors.company && <p className="text-red-500 text-sm">{errors.company}</p>}
+            {errors.company && (
+              <p className="text-red-500 text-sm mt-1">{errors.company}</p>
+            )}
           </div>
-          <div>
+
+          {/* License */}
+          <div className="col-span-1">
+            <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors duration-500">
+              License Type
+            </label>
             <select
               name="license"
-              className="w-full border p-3 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700"
               value={form.license}
               onChange={handleChange}
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-500"
             >
               <option value="">Select License Type</option>
-              <option value="Office Suite">Office Suite</option>
-              <option value="Antivirus">Antivirus</option>
-              <option value="Design Software">Design Software</option>
-              <option value="Other">Other</option>
+              <option>Office Suite</option>
+              <option>Antivirus</option>
+              <option>Design Software</option>
+              <option>Other</option>
             </select>
-            {errors.license && <p className="text-red-500 text-sm">{errors.license}</p>}
+            {errors.license && (
+              <p className="text-red-500 text-sm mt-1">{errors.license}</p>
+            )}
           </div>
-          <div>
+
+          {/* Message */}
+          <div className="col-span-1 md:col-span-2">
+            <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300 transition-colors duration-500">
+              Message
+            </label>
             <textarea
               name="message"
-              placeholder="Your message..."
-              className="w-full border p-3 rounded h-32 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-gray-300 dark:border-gray-700 placeholder-gray-500 dark:placeholder-gray-400"
+              rows="4"
               value={form.message}
               onChange={handleChange}
-            ></textarea>
-            {errors.message && <p className="text-red-500 text-sm">{errors.message}</p>}
+              placeholder="Type your message here..."
+              className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors duration-500"
+            />
+            {errors.message && (
+              <p className="text-red-500 text-sm mt-1">{errors.message}</p>
+            )}
           </div>
-          <button
-            type="submit"
-            className="bg-blue-500 dark:bg-blue-700 text-white rounded px-4 py-2 hover:bg-blue-600 dark:hover:bg-blue-800 transition-colors"
-          >
-            Submit
-          </button>
+
+          {/* Submit Button */}
+          <div className="col-span-1 md:col-span-2">
+            <button
+              type="submit"
+              className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-all duration-500"
+            >
+              Send Message
+            </button>
+          </div>
         </form>
       </div>
     </section>
